@@ -41,7 +41,7 @@ def calculate_helmholtz_dst(
     return H_mat
 
 
-def compute_homogeneous_solution(u: Array, lambda_sq: Array, H_mat: Array):
+def compute_homogeneous_solution(u: Array, lambda_sq: Array, H_mat: Array, params: QGParams):
     # create constant field
     constant_field = jnp.ones_like(u)
 
@@ -50,7 +50,8 @@ def compute_homogeneous_solution(u: Array, lambda_sq: Array, H_mat: Array):
         constant_field[..., 1:-1, 1:-1], H_mat
     )
 
+    beta = params.f0**2 * lambda_sq
     # calculate the homogeneous solution
-    homsol = constant_field + sol * lambda_sq
+    homsol = constant_field + sol * beta
 
     return homsol
